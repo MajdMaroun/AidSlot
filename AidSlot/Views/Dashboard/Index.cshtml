@@ -1,0 +1,58 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_DashboardLayout";
+}
+
+<div class="dashboard-page">
+
+    <partial name="_Sidebar" />
+
+    <main class="dashboard-main">
+        <h1>Dashboard</h1>
+        <p>Distribution Overview</p>
+
+        <div class="summary-cards">
+            <partial name="_SummaryCard" model='("Recipients", "250", "Total recipients")' />
+            <partial name="_SummaryCard" model='("Collected", "120", "Collected today")' />
+            <partial name="_SummaryCard" model='("Remaining", "130", "To collect")' />
+            <partial name="_SummaryCard" model='("Stock", "480", "Available packages")' />
+        </div>
+
+        <section class="current-campaign-section">
+            <h2 class="section-title">Current Campaign</h2>
+
+            <div class="campaign-card">
+                <div>
+                    <h3>September Food Distribution</h3>
+                    <div class="campaign-status">
+                        <span class="status-label">Status:</span>
+                        <span class="status-badge">Active</span>
+                    </div>
+                    <p>Distribution date: 20 September 2026</p>
+                </div>
+
+                <a href="#" class="primary-button">View Campaign</a>
+            </div>
+        </section>
+
+        <section class="quick-actions-section">
+            <h2 class="section-title">Quick Actions</h2>
+
+            <div class="quick-actions-grid">
+                <partial name="_QuickActionCard" model='("Create Campaign", "Create a campaign and import its recipient CSV file", "Create Campaign", "/Campaign/Create")' />
+                <partial name="_QuickActionCard" model="@("Today's Time Slots", "8 slots scheduled", "View Time Slots", "#")" />
+                <partial name="_QuickActionCard" model='("Distribution Report", "View the Final distribution report", "View Report", "#")' />
+            </div>
+        </section>
+
+        <section class="stock-section">
+            <h2 class="section-title">Stock</h2>
+
+            <div class="stock-card">
+                <h3>Available Stock</h3>
+                <p>480 packages available</p>
+
+                <a href="#" class="primary-button">Manage Stock</a>
+            </div>
+        </section>
+</div>

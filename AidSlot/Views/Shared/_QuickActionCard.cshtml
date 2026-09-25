@@ -1,0 +1,9 @@
+@model (string Title, string Description, string ButtonText, string ButtonUrl)
+
+<div class="quick-action-card">
+    <h3>@Model.Title</h3>
+
+    <p>@Model.Description</p>
+
+    <a href="@Model.ButtonUrl" class="primary-button">@Model.ButtonText</a>
+</div>

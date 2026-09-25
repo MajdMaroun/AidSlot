@@ -1,0 +1,276 @@
+@model IEnumerable<AidSlot.Models.Recipient>
+@using AidSlot.Models
+
+@{
+    ViewData["Title"] = "Campaign Recipients";
+
+    var campaign = (Campaign)ViewBag.Campaign;
+
+    var totalRecipients = Model.Count();
+    var receivedRecipients = Model.Count(recipient => recipient.HasReceived);
+    var notReceivedRecipients =
+        Model.Count(recipient => !recipient.HasReceived);
+    var canSeeSensitiveData = User.IsInRole("Admin") || User.IsInRole("Coordinator");
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1>Recipients — @campaign.CampaignName</h1>
+
+        <p class="text-muted mb-1">
+            CSV file: @(campaign.CsvFileName ?? "Not available")
+        </p>
+
+        <p class="text-muted mb-0">
+            Campaign time:
+            @campaign.StartTime.ToString(@"hh\:mm")
+            -
+            @campaign.EndTime.ToString(@"hh\:mm")
+        </p>
+    </div>
+
+    <a asp-action="Details"
+       asp-route-id="@campaign.Id"
+       class="btn btn-outline-secondary">
+        Back to Details
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card border-primary h-100">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Total Recipients</h2>
+
+                <p class="display-6 mb-0 text-primary">
+                    @totalRecipients
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-success h-100">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Received</h2>
+
+                <p class="display-6 mb-0 text-success">
+                    @receivedRecipients
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-warning h-100">
+            <div class="card-body">
+                <h2 class="h6 text-muted">Not Received</h2>
+
+                <p class="display-6 mb-0 text-warning">
+                    @notReceivedRecipients
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        This campaign has no recipients.
+    </div>
+}
+else
+{
+    <div class="mb-3">
+        <span class="me-2 fw-semibold">Filter:</span>
+
+        <button type="button"
+                class="btn btn-primary recipient-filter"
+                data-filter="all">
+            All (@totalRecipients)
+        </button>
+
+        <button type="button"
+                class="btn btn-outline-success recipient-filter"
+                data-filter="received">
+            Received (@receivedRecipients)
+        </button>
+
+        <button type="button"
+                class="btn btn-outline-warning recipient-filter"
+                data-filter="not-received">
+            Not Received (@notReceivedRecipients)
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm align-middle">
+            <thead>
+                <tr>
+                    <th>Record #</th>
+                    <th>Full Name</th>
+                    <th>Attendance Time</th>
+                    @if (canSeeSensitiveData)
+                    {
+                    <th>Spouse's Full Name</th>
+                    <th>Residential Area</th>
+                    <th>Family Members</th>
+                    <th>Head of Household Gender</th>
+                    <th>Phone Number</th>
+                    <th>Nationality</th>
+                    <th>Document Type</th>
+                    <th>Document Number</th>
+                    }
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var recipient in Model)
+                {
+                    var recipientStatus = recipient.HasReceived
+                        ? "received"
+                        : "not-received";
+
+                    <tr class="recipient-row"
+                        data-status="@recipientStatus">
+
+                        <td>@recipient.RecordNumber</td>
+
+                        <td>@recipient.FullName</td>
+
+                        <td>
+                            @if (recipient.AssignedSlotTime.HasValue)
+                            {
+                                <span class="badge bg-primary">
+                                    @recipient.AssignedSlotTime.Value.ToString(@"hh\:mm")
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">
+                                    Not assigned
+                                </span>
+                            }
+                        </td>
+
+                        @if (canSeeSensitiveData)
+                        {
+                        <td>
+                            @(string.IsNullOrWhiteSpace(recipient.SpouseFullName)
+                                ? "-"
+                                : recipient.SpouseFullName)
+                        </td>
+
+                        <td>@recipient.ResidentialArea</td>
+
+                        <td>@recipient.FamilyMemberCount</td>
+
+                        <td>@recipient.HeadOfHouseholdGender</td>
+
+                        <td>@recipient.PhoneNumber</td>
+
+                        <td>@recipient.Nationality</td>
+
+                        <td>@recipient.DocumentType</td>
+
+                        <td>@recipient.DocumentNumber</td>
+                        }
+
+                        <td>
+                            @if (recipient.HasReceived)
+                            {
+                                <span class="badge bg-success">
+                                    Received
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    Not Received
+                                </span>
+                            }
+                        </td>
+
+                        <td>
+                            <a asp-action="RecipientCheckIn"
+                               asp-route-id="@recipient.Id"
+                               class="btn btn-sm btn-outline-primary">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const filterButtons =
+                document.querySelectorAll(".recipient-filter");
+
+            const recipientRows =
+                document.querySelectorAll(".recipient-row");
+
+            filterButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const selectedFilter =
+                        button.dataset.filter;
+
+                    recipientRows.forEach(function (row) {
+                        const rowStatus =
+                            row.dataset.status;
+
+                        const shouldShow =
+                            selectedFilter === "all" ||
+                            selectedFilter === rowStatus;
+
+                        row.style.display =
+                            shouldShow ? "" : "none";
+                    });
+
+                    filterButtons.forEach(function (filterButton) {
+                        filterButton.classList.remove(
+                            "btn-primary",
+                            "btn-success",
+                            "btn-warning");
+
+                        if (filterButton.dataset.filter === "received") {
+                            filterButton.className =
+                                "btn btn-outline-success recipient-filter";
+                        }
+                        else if (
+                            filterButton.dataset.filter === "not-received"
+                        ) {
+                            filterButton.className =
+                                "btn btn-outline-warning recipient-filter";
+                        }
+                        else {
+                            filterButton.className =
+                                "btn btn-outline-primary recipient-filter";
+                        }
+                    });
+
+                    if (selectedFilter === "received") {
+                        button.className =
+                            "btn btn-success recipient-filter";
+                    }
+                    else if (selectedFilter === "not-received") {
+                        button.className =
+                            "btn btn-warning recipient-filter";
+                    }
+                    else {
+                        button.className =
+                            "btn btn-primary recipient-filter";
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,150 @@
+@model AidSlot.Models.Recipient
+
+@{
+    ViewData["Title"] = "Recipient Check-In";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>Recipient Check-In</h1>
+
+            <p class="text-muted mb-0">
+                @Model.Campaign.CampaignName
+            </p>
+        </div>
+
+        <a asp-action="Recipients"
+           asp-route-id="@Model.CampaignId"
+           class="btn btn-outline-secondary">
+            Back to Recipients
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] is not null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["InfoMessage"] is not null)
+    {
+        <div class="alert alert-info">
+            @TempData["InfoMessage"]
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h2 class="h5 mb-0">Recipient Information</h2>
+        </div>
+
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-4">Record Number</dt>
+                <dd class="col-sm-8">@Model.RecordNumber</dd>
+
+                <dt class="col-sm-4">Full Name</dt>
+                <dd class="col-sm-8">@Model.FullName</dd>
+
+                @if (User.IsInRole("Admin") || User.IsInRole("Coordinator"))
+                {
+                <dt class="col-sm-4">Spouse's Full Name</dt>
+                <dd class="col-sm-8">
+                    @(string.IsNullOrWhiteSpace(Model.SpouseFullName)
+                        ? "-"
+                        : Model.SpouseFullName)
+                </dd>
+
+                <dt class="col-sm-4">Residential Area</dt>
+                <dd class="col-sm-8">@Model.ResidentialArea</dd>
+
+                <dt class="col-sm-4">Family Members</dt>
+                <dd class="col-sm-8">@Model.FamilyMemberCount</dd>
+
+                <dt class="col-sm-4">Phone Number</dt>
+                <dd class="col-sm-8">@Model.PhoneNumber</dd>
+
+                <dt class="col-sm-4">Document Type</dt>
+                <dd class="col-sm-8">@Model.DocumentType</dd>
+
+                <dt class="col-sm-4">Document Number</dt>
+                <dd class="col-sm-8">@Model.DocumentNumber</dd>
+                }
+
+                <dt class="col-sm-4">Campaign Date</dt>
+                <dd class="col-sm-8">
+                    @Model.Campaign.DistributionDate.ToString("dd/MM/yyyy")
+                </dd>
+
+                <dt class="col-sm-4">Campaign Location</dt>
+                <dd class="col-sm-8">
+                    @Model.Campaign.LocationName
+                </dd>
+
+                <dt class="col-sm-4">Attendance Time</dt>
+                <dd class="col-sm-8">
+                    @if (Model.AssignedSlotTime.HasValue)
+                    {
+                        <span class="badge bg-primary">
+                            @Model.AssignedSlotTime.Value.ToString(@"hh\:mm")
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Not assigned</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-4">Status</dt>
+                <dd class="col-sm-8">
+                    @if (Model.HasReceived)
+                    {
+                        <span class="badge bg-success">
+                            Received
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning text-dark">
+                            Not Received
+                        </span>
+                    }
+                </dd>
+
+                @if (Model.HasReceived && Model.ReceivedAt.HasValue)
+                {
+                    <dt class="col-sm-4">Received At</dt>
+                    <dd class="col-sm-8">
+                        @Model.ReceivedAt.Value.ToString("dd/MM/yyyy HH:mm")
+                    </dd>
+                }
+            </dl>
+        </div>
+
+        <div class="card-footer">
+            @if (!Model.HasReceived)
+            {
+                <form asp-action="ConfirmReceived"
+                      asp-route-id="@Model.Id"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="btn btn-success"
+                            onclick="return confirm('Confirm that this recipient has received the aid?');">
+                        Accept
+                    </button>
+                </form>
+            }
+            else
+            {
+                <div class="alert alert-success mb-0">
+                    This recipient has already received the aid.
+                </div>
+            }
+        </div>
+    </div>
+</div>

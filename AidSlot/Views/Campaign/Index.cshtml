@@ -1,0 +1,39 @@
+@model IEnumerable<AidSlot.Models.Campaign>
+
+@{
+    ViewData["Title"] = "Campaigns";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Campaigns</h1>
+    <a asp-action="Create" class="btn btn-primary">Create Campaign</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No campaigns have been created yet.</div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Campaign name</th>
+                <th>Distribution date</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var campaign in Model)
+            {
+                <tr>
+                    <td>@campaign.CampaignName</td>
+                    <td>@campaign.DistributionDate.ToString("dd MMMM yyyy")</td>
+                    <td><span class="badge bg-secondary">@campaign.Status</span></td>
+                    <td><a asp-action="Details" asp-route-id="@campaign.Id" class="btn btn-outline-primary btn-sm">View Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,34 @@
+@model AidSlot.Models.Campaign
+
+@{
+    ViewData["Title"] = "Campaign Details";
+}
+
+@if (TempData["SuccessMessage"] is string successMessage)
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1>@Model.CampaignName</h1>
+        <span class="badge bg-secondary">@Model.Status</span>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to Campaigns</a>
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Campaign type</dt><dd class="col-sm-9">@Model.CampaignType</dd>
+    <dt class="col-sm-3">Description</dt><dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Description) ? "Not provided" : Model.Description)</dd>
+    <dt class="col-sm-3">Distribution date</dt><dd class="col-sm-9">@Model.DistributionDate.ToString("dd MMMM yyyy")</dd>
+    <dt class="col-sm-3">Start time</dt><dd class="col-sm-9">@Model.StartTime.ToString(@"hh\:mm")</dd>
+    <dt class="col-sm-3">End time</dt><dd class="col-sm-9">@Model.EndTime.ToString(@"hh\:mm")</dd>
+    <dt class="col-sm-3">Location name</dt><dd class="col-sm-9">@Model.LocationName</dd>
+    <dt class="col-sm-3">Full address</dt><dd class="col-sm-9">@Model.Address</dd>
+    <dt class="col-sm-3">Coordinator name</dt><dd class="col-sm-9">@Model.CoordinatorName</dd>
+    <dt class="col-sm-3">Coordinator phone number</dt><dd class="col-sm-9">@Model.CoordinatorNumber</dd>
+    <dt class="col-sm-3">Uploaded CSV filename</dt><dd class="col-sm-9">@(Model.CsvFileName ?? "Not available")</dd>
+    <dt class="col-sm-3">Total recipients</dt><dd class="col-sm-9">@Model.Recipients.Count</dd>
+</dl>
+
+<a asp-action="Recipients" asp-route-id="@Model.Id" class="btn btn-primary">View Recipients</a>

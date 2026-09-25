@@ -1,0 +1,246 @@
+﻿:root {
+    --ink: #173d42;
+    --muted: #708285;
+    --primary: #0b8b7a;
+    --primary-dark: #087467;
+    --line: #dce6e4;
+    --surface: #ffffff;
+    --page: #f5f8f7;
+    --focus: rgba(11, 139, 122, 0.16);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.campaign-page {
+    min-height: 100vh;
+    padding: 56px 24px;
+}
+
+.campaign-content {
+    width: min(100%, 820px);
+    margin: 0 auto;
+}
+
+.page-heading {
+    margin-bottom: 24px;
+}
+
+.eyebrow {
+    margin: 0 0 9px;
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.page-heading h1 {
+    margin: 0;
+    font-size: clamp(28px, 4vw, 38px);
+    line-height: 1.18;
+    letter-spacing: -0.035em;
+}
+
+.page-heading > p:last-child {
+    margin: 9px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.campaign-card {
+    padding: 30px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 14px 40px rgba(22, 61, 66, 0.06);
+}
+
+.card-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #edf2f1;
+}
+
+.card-icon {
+    display: grid;
+    flex: 0 0 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: 9px;
+    background: #e5f5f1;
+    color: var(--primary);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.card-heading h2 {
+    margin: 0 0 5px;
+    font-size: 17px;
+}
+
+.card-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.campaign-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    padding-top: 25px;
+}
+
+.form-group {
+    min-width: 0;
+}
+
+.form-group--full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #284b4f;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+    .form-group label span {
+        color: #df604f;
+    }
+
+    .form-group label small {
+        margin-left: 5px;
+        color: #95a3a5;
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    outline: none;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    font-size: 13px;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.form-group input,
+.form-group select {
+    height: 47px;
+    padding: 0 13px;
+}
+
+.form-group textarea {
+    min-height: 104px;
+    padding: 13px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: #a0acae;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px var(--focus);
+    }
+
+.select-wrapper {
+    position: relative;
+}
+
+    .select-wrapper select {
+        cursor: pointer;
+    }
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    padding-top: 8px;
+}
+
+.button {
+    min-width: 146px;
+    height: 46px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 0 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    transition: transform 150ms ease, background-color 150ms ease;
+}
+
+    .button:hover {
+        transform: translateY(-1px);
+    }
+
+.button--primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+    .button--primary:hover {
+        background: var(--primary-dark);
+    }
+
+.button--secondary {
+    border-color: var(--line);
+    background: #fff;
+    color: var(--ink);
+}
+
+    .button--secondary:hover {
+        background: #f8fbfa;
+    }
+
+@media (max-width: 650px) {
+    .campaign-page {
+        padding: 30px 14px;
+    }
+
+    .campaign-card {
+        padding: 22px 18px;
+    }
+
+    .campaign-form {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group,
+    .form-group--full {
+        grid-column: 1;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .button {
+        width: 100%;
+    }
+}

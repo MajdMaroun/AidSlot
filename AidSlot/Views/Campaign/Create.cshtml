@@ -1,0 +1,128 @@
+@model AidSlot.Models.CreateCampaignViewModel
+
+@{
+    ViewData["Title"] = "Create Campaign";
+}
+
+<link rel="stylesheet" href="~/css/campaign-form.css" asp-append-version="true" />
+
+<main class="campaign-page">
+    <section class="campaign-content" aria-labelledby="page-title">
+        <div class="page-heading">
+            <p class="eyebrow">CAMPAIGNS</p>
+            <h1 id="page-title">Create a campaign</h1>
+            <p>Set up the details for your next distribution campaign and import its recipients.</p>
+        </div>
+
+        <div class="campaign-card">
+            <div class="card-heading">
+                <span class="card-icon" aria-hidden="true">✓</span>
+                <div>
+                    <h2>Campaign details</h2>
+                    <p>Enter the campaign information, then upload the recipients CSV file.</p>
+                </div>
+            </div>
+
+            <form asp-action="Create" method="post" enctype="multipart/form-data" class="campaign-form">
+                <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                <div class="form-group form-group--full">
+                    <label asp-for="Campaign.CampaignName">Campaign name <span>*</span></label>
+                    <input asp-for="Campaign.CampaignName" placeholder="Example: Winter Aid Campaign 2026" />
+                    <span asp-validation-for="Campaign.CampaignName" class="validation-message"></span>
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label asp-for="Campaign.CampaignType">Campaign type <span>*</span></label>
+                    <div class="select-wrapper">
+                        <select asp-for="Campaign.CampaignType">
+                            <option value="">Select campaign type</option>
+                            <option value="Food Parcels">Food Parcels</option>
+                            <option value="Hygiene Kits">Hygiene Kits</option>
+                            <option value="School Supplies">School Supplies</option>
+                            <option value="Winter Assistance">Winter Assistance</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="Campaign.CampaignType" class="validation-message"></span>
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label asp-for="Campaign.Description">Description <small>Optional</small></label>
+                    <textarea asp-for="Campaign.Description" rows="4" placeholder="Write a short description about the campaign"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Campaign.DistributionDate">Distribution date <span>*</span></label>
+                    <input asp-for="Campaign.DistributionDate" type="date" />
+                    <span asp-validation-for="Campaign.DistributionDate" class="validation-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Campaign.LocationName">Location name <span>*</span></label>
+                    <input asp-for="Campaign.LocationName" placeholder="Tripoli Community Center" />
+                    <span asp-validation-for="Campaign.LocationName" class="validation-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Campaign.StartTime">Start time <span>*</span></label>
+                    <input asp-for="Campaign.StartTime" type="time" />
+                    <span asp-validation-for="Campaign.StartTime" class="validation-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Campaign.EndTime">End time <span>*</span></label>
+                    <input asp-for="Campaign.EndTime" type="time" />
+                    <span asp-validation-for="Campaign.EndTime" class="validation-message"></span>
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label asp-for="Campaign.Address">Address <span>*</span></label>
+                    <input asp-for="Campaign.Address" placeholder="Enter the detailed campaign address" />
+                    <span asp-validation-for="Campaign.Address" class="validation-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Campaign.CoordinatorName">Coordinator name <span>*</span></label>
+                    <input asp-for="Campaign.CoordinatorName" placeholder="Full name" />
+                    <span asp-validation-for="Campaign.CoordinatorName" class="validation-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Campaign.CoordinatorNumber">Coordinator phone number <span>*</span></label>
+                    <input asp-for="Campaign.CoordinatorNumber" type="tel" placeholder="+961 00 000 000" />
+                    <span asp-validation-for="Campaign.CoordinatorNumber" class="validation-message"></span>
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label asp-for="RecipientsCsvFile">Recipients CSV file <span>*</span></label>
+                    <input asp-for="RecipientsCsvFile" type="file" accept=".csv,text/csv" />
+                    <span asp-validation-for="RecipientsCsvFile" class="validation-message"></span>
+                    <small>Select the CSV file containing the recipients for this campaign.</small>
+                </div>
+
+                @if (ViewBag.CsvErrors is List<string> errors)
+                {
+                    <div class="form-group form-group--full">
+                        <p class="validation-message">Please fix the following CSV issues:</p>
+                        <ul class="validation-message">
+                            @foreach (var error in errors)
+                            {
+                                <li>@error</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <div class="form-actions form-group--full">
+                    <button type="submit" class="button button--primary">Create campaign</button>
+                    <a asp-action="Index" class="button button--secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

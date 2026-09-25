@@ -1,0 +1,41 @@
+@model AidSlot.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>AidSlot - Log in</title>
+    <link rel="stylesheet" href="~/css/login.css" />
+</head>
+
+<body>
+    <div class="login-page">
+        <h1 class="brand">AidSlot</h1>
+        <p class="tagline">Aid distribution, simplified</p>
+
+        <div class="login-card">
+            <h2>Welcome back</h2>
+            <p class="subtitle">Sign in to your AidSlot account</p>
+
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" class="form-input" placeholder="Enter your email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+
+                <label asp-for="Password">Password</label>
+                <input asp-for="Password" class="form-input" placeholder="Enter your password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+
+                <button type="submit" class="btn-login">Log in</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

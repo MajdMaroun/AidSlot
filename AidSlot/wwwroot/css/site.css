@@ -1,0 +1,292 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+.dashboard-page{
+  display: flex;
+  min-height: 100vh;
+  background-color: #F8FAF9;
+}
+
+/* Sidebar */
+.dashboard-sidebar{
+  width: 240px;
+  min-height: 100vh;
+  background: white;
+  padding: 32px 20px;
+  border-right: 1px solid #E5E7EB;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+}
+
+.dashboard-brand{
+  font-size: 26px;
+  font-weight: 700;
+  color: #087F73;
+  margin-bottom: 40px;
+}
+
+.dashboard-nav{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item{
+  display: block; 
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #374151;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-item:hover{
+  background: #f1f5f4;
+  color: #087F73;
+}
+
+.nav-item.active{
+  background: #087F73;
+  color: white;
+  font-weight: 600;
+}
+
+/* Main Dashboard */
+.dashboard-main{
+  flex: 1;
+  padding: 32px;
+}
+
+.dashboard-main > h1{
+  font-size: 44px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.dashboard-main > p{
+  color: #374151;
+  margin: 0 0 28px 0;
+}
+
+/*  Shared section styling */
+.current-campaign-section, 
+.quick-actions-section, 
+.stock-section{
+  margin-top: 32px;
+}
+
+.section-title{
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+}
+
+/* Summary Cards */
+.summary-cards{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.summary-card{
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.summary-card-title{
+  font-size: 14px;
+  font-weight: 600;
+  color: #6B7280;
+  margin-bottom: 12px;
+}
+
+.summary-card-value{
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.summary-card-subtitle{
+  font-size: 14px;
+  color: #6B7280;
+}
+
+/* Shared Large cards */
+.campaign-card,
+.stock-card{
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.campaign-card h3,
+.stock-card h3{
+  margin: 0 0 8px 0;
+  font-size: 20px;
+}
+
+.campaign-card p,
+.stock-card p{
+  margin: 4px 0;
+  color: #6B7280;
+}
+
+/* Campaign status */
+.campaign-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.status-label {
+  color: #6B7280;
+}
+
+.status-badge {
+  display: inline-block;
+  background: #E6F4F1;
+  color: #087F73;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Primary Button */
+.primary-button{
+  display: inline-block;
+  background: #087F73;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.primary-button:hover{
+  background: #066c62;
+  color: white;
+  text-decoration: none;
+}
+
+/* Quick Actions */
+.quick-actions-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.quick-action-card{
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quick-action-card .primary-button{
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.quick-action-card h3{
+  margin: 0 0 12px 0;
+  font-size: 20px;
+}
+
+.quick-action-card p{
+  margin: 0 0 24px 0;
+  color: #6B7280;
+}
+
+.quick-action-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Tablet */
+@media (max-width: 1200px) {
+  .summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quick-actions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .dashboard-page {
+    flex-direction: column;
+  }
+
+  .dashboard-sidebar {
+    width: 100%;
+    min-height: auto;
+    position: static;
+  }
+
+  .dashboard-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .summary-cards,
+  .quick-actions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .campaign-card,
+  .stock-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .dashboard-main {
+    padding: 24px;
+  }
+}
